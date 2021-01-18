@@ -23,6 +23,9 @@ class HrEmployee(models.Model):
         employee_ids = self.search([('company_id', 'in', company_ids.ids),
                                     ('user_id', '!=', False)])
 
+        ctx_user_id = self.env.user.id
+        datetime_now = fields.Datetime.to_string(fields.Datetime.now())
+
         for company_id in company_ids:
             filtered_employee_ids = employee_ids.filtered(lambda r: r.company_id == company_id)
             if not filtered_employee_ids:
@@ -35,20 +38,30 @@ class HrEmployee(models.Model):
                 _logger.error(f"Can't process calculation workload for company: {company_id.display_name}. Configuration has not beed set properly.")
                 continue
 
-            start_days = fields.Date.today() + timedelta(days=1)
-            end_days = fields.Date.today() + timedelta(days=days_workload)
-            task_ids = self.env['project.task'].search([('kanban_state', '!=', 'blocked'),
-                                                        ('date_deadline', '>=', start_days),
-                                                        ('date_deadline', '<=', end_days),
-                                                        ('user_id', '!=', False),
-                                                        ('remaining_hours', '>', 0),
-                                                        ('company_id', '=', company_id.id)])
+            start_days = fields.Date.to_string(fields.Date.today() + timedelta(days=1))
+            end_days = fields.Date.to_string(fields.Date.today() + timedelta(days=days_workload))
+
+            employee_user_ids = filtered_employee_ids.mapped('user_id')
+            sql = """SELECT user_id,
+                            SUM(remaining_hours) AS total_remaining_hours
+                     FROM project_task
+                     WHERE user_id IN %s
+                           AND kanban_state != 'blocked'
+                           AND date_deadline BETWEEN %s AND %s
+                           AND remaining_hours > 0
+                           AND company_id = %s
+                     GROUP BY user_id"""
+            self._cr.execute(sql, (tuple(employee_user_ids.ids), start_days, end_days, company_id.id,))
+            fetch = self._cr.fetchall()
+            map_user_hours = dict((x, y) for x, y in fetch)
 
             for employee_id in filtered_employee_ids:
                 user_id = employee_id.user_id
-                filtered_task_ids = task_ids.filtered(lambda r: r.user_id == user_id)
-                total_remaining_hours = sum(filtered_task_ids.mapped('remaining_hours')) if filtered_task_ids else 0.0
-                employee_id.update({
-                    'next_workload_total': total_remaining_hours,
-                    'is_overload': total_remaining_hours > min_workload_hours,
-                })
+                total_remaining_hours = map_user_hours.get(user_id.id, 0)
+                is_overload = total_remaining_hours > min_workload_hours
+                sql_update = """UPDATE hr_employee
+                                SET next_workload_total = %s, is_overload = %s, write_uid = %s, write_date = %s
+                                WHERE id = %s"""
+
+                params = (total_remaining_hours, is_overload, ctx_user_id, datetime_now, employee_id.id,)
+                self._cr.execute(sql_update, params)
