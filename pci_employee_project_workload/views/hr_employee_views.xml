@@ -14,12 +14,14 @@
             </field>
             <xpath expr="//strong[hasclass('o_kanban_record_title')]" position="after">
                 <t t-if="record.user_id.raw_value">
-                    <span t-if="record.is_overload.raw_value" class="o_kanban_record_subtitle badge-pill" style="background-color: red; color: white">
-                        <field name="next_workload_total"/>/<field name="company_min_workload_hours"/> Hours for Next <field name="company_days_workload"/> Days
-                    </span>
-                    <span t-else="" class="o_kanban_record_subtitle badge-pill" style="background-color: green; color: white">
-                        <field name="next_workload_total"/>/<field name="company_min_workload_hours"/> Hours for Next <field name="company_days_workload"/> Days
-                    </span>
+                    <div style="margin-top: 2px">
+                        <span t-if="record.is_overload.raw_value" class="badge-pill" style="background-color: red; color: white">
+                            <field name="next_workload_total"/>/<field name="company_min_workload_hours"/> Hours for Next <field name="company_days_workload"/> Days
+                        </span>
+                        <span t-else="" class="badge-pill" style="background-color: green; color: white">
+                            <field name="next_workload_total"/>/<field name="company_min_workload_hours"/> Hours for Next <field name="company_days_workload"/> Days
+                        </span>
+                    </div>
                 </t>
             </xpath>
         </field>
