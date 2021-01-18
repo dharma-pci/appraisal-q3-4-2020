@@ -6,9 +6,9 @@
     """,
     'author': "Port Cities",
     'website': "https://portcities.com",
-    'category': 'Services/Project',
+    'category': 'Services/Timesheets',
     'version': '14.0.1',
-    'depends': ['timesheet_grid'],
+    'depends': ['hr_timesheet'],
     'data': [
         'data/ir_cron_data.xml',
         'views/res_company_views.xml',
