@@ -57,34 +57,3 @@ class TestEmployeeProjectWorkload(TestCommonTimesheet):
         self.env['hr.employee'].cron_calculate_workload()
         self.assertEqual(self.empl_employee2.next_workload_total, 20)
         self.assertFalse(self.empl_employee2.is_overload)
-
-    def test_many_employee(self):
-        for i in range(100):
-            idx = i + 1
-            user_employee = self.env['res.users'].create({
-                'name': f'User Employee {idx}',
-                'login': f'user_employee_{idx}',
-                'email': f'useremployee_{idx}@test.com',
-                'groups_id': [(6, 0, [self.ref('hr_timesheet.group_hr_timesheet_user')])],
-            })
-
-            empl_employee = self.env['hr.employee'].create({
-                'name': f'User Empl Employee {idx}',
-                'user_id': user_employee.id,
-            })
-
-            task = self.env['project.task'].create({
-                'name': 'Task One',
-                'priority': '0',
-                'kanban_state': 'normal',
-                'project_id': self.project_customer.id,
-                'partner_id': self.partner.id,
-                'user_id': user_employee.id,
-                'date_deadline': fields.Date.today() + timedelta(days=2),
-                'planned_hours': 20,
-            })
-
-        start_time = time.perf_counter() * 1000
-        self.env['hr.employee'].cron_calculate_workload()
-        end_time = time.perf_counter() * 1000
-        print(f'Result: {(end_time - start_time):0.2f} ms')
