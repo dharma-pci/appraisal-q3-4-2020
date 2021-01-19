@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- button action for order search -->
+    <t t-name="OrderSearch">
+        <div class="right_button" title="If Customer return back one part of Order, click it made return Products">
+            <div class="button-icon">
+                <i class="fa fa-credit-card"></i>
+            </div>
+            <div class="button-name">
+                Order Search
+            </div>
+        </div>
+    </t>
+
+    <!-- Order Screen template -->
+    <t t-name="OrdersScreenWidget">
+        <div class="orders-list-screen screen">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left' />
+                        Back
+                    </span>
+                    <span class='searchbox'>
+                        <input placeholder='Search Orders' />
+                        <span class='search-clear' />
+                    </span>
+                    <span class='button return_order'>
+                        <i class='fa fa-pencil' />
+                        Show Details
+                    </span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow collapsed'>
+                            <div class='subwindow-container collapsed'>
+                                <div
+                                    class='subwindow-container-fix orders-details-contents'
+                                >
+                                </div>
+                            </div>
+                        </section>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div
+                                    class='subwindow-container-fix touch-scrollable scrollable-y'
+                                >
+                                    <table class='order-list'>
+                                        <thead>
+                                            <tr>
+                                                <th>Order Ref</th>
+                                                <th>Customer</th>
+                                                <th>POS</th>
+                                                <th>Order Date</th>
+                                                <th>Salesman</th>
+                                                <th>Session</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class='order-list-contents'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
+    <!-- this template will use to show all list of pos order that has been search -->
+    <t t-name="OrderHistory">
+        <tr class='order-line' t-att-data-id='order.id'>
+            <td>
+                <span class='details'>
+                    <t t-esc='order.pos_reference' />
+                </span>
+            </td>
+            <td>
+                <t t-if='order.partner_id' t-esc='order.partner_id[1]' />
+                <t t-if='!order.partner_id' t-esc='""' />
+            </td>
+            <td>
+                <t t-esc='order.name' />
+            </td>
+            <td>
+                <t t-esc='widget.get_datetime_format(order.date_order)' />
+            </td>
+            <td>
+                <t t-esc='order.user_id[1]' />
+            </td>
+            <td>
+                <t t-esc='order.session_id[1]'/>
+            </td>
+            <td>
+                <t t-esc='order.amount_total'/>
+            </td>
+        </tr>
+    </t>
+
+    <!-- this detail order means show all pos order line and make some partial of full return -->
+    <t t-name="OrderDetails">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup" style="width:900px;">
+                <header class="title"> Order Lines</header>
+                <div class='selection scrollable-y touch-scrollable'>
+                    <table class='order-line-list' style="width:100%; line-height:35px;">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Sub total</th>
+                                <th>delete</th>
+                                <th>add</th>
+                            </tr>
+                        </thead>
+                        <tbody class='order-line-list-contents'>
+                            <t t-foreach='widget.lines || []' t-as='line'>
+                                <tr class='order-line-details' t-att-data-product_id="line.product_id[0]" t-att-data-id='line.id' t-att-data-qty_def='line.qty'>
+                                    <td><t t-esc='line.product_id[1]'/></td>
+                                    <td t-att-class="'qty_'+line.id"><t t-esc='line.qty'/></td>
+                                    <td><t t-esc='widget.format_currency(line.price_unit)'/></td>
+                                    <td><t t-esc='widget.format_currency(line.price_subtotal_incl)'/></td>
+                                    <td class="qty_minus min_button" t-if="line.qty > 1" t-att-data-id="line.id">
+                                        <div class="button_icon">
+                                            <i class="fa fa-minus"></i>
+                                        </div>
+                                    </td>
+                                    <td class="qty_plus plus_button" t-att-data-id="line.id">
+                                        <div class="button_icon">
+                                            <i class="fa fa-plus"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="footer">
+                    <div class="button confirm">
+                        Confirm Return
+                    </div>
+                    <div class="button cancel">
+                        Exit
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+    <!-- for place button to before product screen in the right -->
+    <t t-extend="ProductScreenWidget">
+        <t t-jquery="div[class*='leftpane']" t-operation="before">
+            <div class="buttons_pane">
+                <div class="button-list"/>
+            </div>
+        </t>
+    </t>
+</templates>
