@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_order_form" model="ir.ui.view">
+        <field name="name">pcs_pricelist_restriction.view_order_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pricelist_id']" position="before">
+             	<field name="allowed_pricelist_ids" widget="many2many_tags" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="domain">[('id', 'in', allowed_pricelist_ids), '|', ('company_id', '=', False), ('company_id', '=', company_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

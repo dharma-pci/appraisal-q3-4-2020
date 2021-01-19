@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_users_form" model="ir.ui.view">
+        <field name="name">pcs_pricelist_restriction.view_users_form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[2]" position="inside">
+             	<group name="pricelist" string="Restrict" groups="base.group_system">
+                    <field name="user_pricelist_ids" widget="many2many_tags"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
