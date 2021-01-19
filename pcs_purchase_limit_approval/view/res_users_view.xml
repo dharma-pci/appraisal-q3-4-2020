@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="res_user_form_view_inherit" model="ir.ui.view">
+        <field name="name">res.user_form_view_inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']/group/field[@name='partner_id']" position="after">
+                <field name="is_purchase_user" invisible="1"/>                
+                <field name="is_purchase_manager" invisible="1"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_title']/group" position="after">
+                <group string="Purchase" attrs="{'invisible':['|',('is_purchase_manager','=',True),('is_purchase_user','=',False)]}">
+                    <field name="purchase_leader_id" attrs="{'invisible':['|',('is_purchase_manager','=',True),('is_purchase_user','=',False)]}"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[2]" position="after">
+                <page name="purchase_crew" string="Purchase Subordinate" attrs="{'invisible':[('is_purchase_manager','=',False)]}">
+                    <field name="purchase_crew_ids">
+                        <tree create="0" edit="0">
+                            <field name="name"/>
+                            <field name="login"/>
+                            <field name="lang"/>
+                            <field name="login_date"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
