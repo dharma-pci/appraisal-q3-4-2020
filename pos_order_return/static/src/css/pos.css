@@ -1,0 +1,79 @@
+.pos .orders-list-screen .searchbox {
+    right: auto;
+    margin-left: -90px;
+    margin-top:8px;
+    left: 50%;
+}
+.pos .orders-list-screen .return_order{
+    position: relative;
+    left: 175px;
+    line-height: 65px;
+}
+.pos .orders-list-screen .order-list{
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .orders-list-screen .order-list thead > tr,
+.pos .orders-list-screen .order-list tr:nth-child(even) {
+    background: rgb(247,247,247);
+}
+
+.pos .buttons_pane {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    left: 440px;
+    width: 170px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-y: auto;
+}
+.pos .button-list {
+    background: inherit;
+    margin-top: 3px;
+}
+.pos .rightpane {
+    left: 605px;
+    border-left: 1px solid black;
+}
+.pos .rightpane-header {
+    background: inherit;
+    height: 18px;
+    border-bottom: 1px solid black;
+    margin-top: 30px;
+}
+.pos .rightpane-header .searchbox {
+    margin-top: -35px;
+    margin-right: -5px;
+}
+.pos .rightpane-header .breadcrumbs {
+    margin-top: -28px;
+}
+
+.pos .right_button {
+    display: inline-block;
+    width: 80px;
+    height: 65px;
+    background: white;
+    line-height: 30px;
+    margin: 3px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid whitesmoke;
+}
+
+.pos .orders-list-screen .order-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
