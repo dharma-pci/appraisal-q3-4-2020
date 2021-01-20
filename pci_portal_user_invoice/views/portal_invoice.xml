@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="pci_portal_invoice_sidebar" name="PCI Portal Invoice Sidebar" inherit_id="account.portal_invoice_page">
+        <xpath expr="//div[hasclass('o_download_pdf')]" position="after">        
+            <div  t-if="invoice.state == 'draft' and len(invoice.invoice_line_ids)" class="o_confirm_invoice btn-toolbar flex-sm-nowrap">
+                <div class="btn-group  flex-grow-1 mb-1">
+                    <a class="btn btn-primary btn-block o_download_btn" t-att-href="'/my/invoice/confirm_post/' + str(invoice.id)"><i class="fa fa-check"></i> Confirm</a>                    
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
+
+
