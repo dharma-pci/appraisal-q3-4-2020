@@ -13,10 +13,11 @@
     </record>
     <record id="action_low_performance_sale" model="ir.actions.act_window">
         <field name="name">Low Performance Sale</field>
-        <field name="res_model">low.performance.sale</field>
-        <field name="view_mode">pivot</field>
+        <field name="res_model">low.perform.options</field>
+        <field name="view_mode">form</field>
         <field name="view_id"></field>  <!-- force empty -->
         <field name="context">{}</field>
         <field name="help">This report show low performance sales of certain products</field>
+        <field name="target">new</field>
     </record>
 </odoo>

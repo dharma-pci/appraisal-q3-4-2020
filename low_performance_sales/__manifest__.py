@@ -18,6 +18,7 @@
         'security/ir.model.access.csv',
         'report/low_performance_sale_views.xml',
         'views/sale_views.xml',
+        'wizard/low_perform_options_views.xml',
         ],
     'installable': True,
     'auto_install': False,

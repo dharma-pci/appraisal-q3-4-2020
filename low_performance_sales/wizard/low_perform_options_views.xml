@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="low_perform_options_view_form" model="ir.ui.view">
+        <field name="name">low.perform.options.view.form</field>
+        <field name="model">low.perform.options</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="report_type" required="1"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="critical_level_qty"/>
+                            <field name="critical_level_currency"/>
+                        </group>
+                        <group>
+                            <h1>Filters</h1>
+                            <field name="product_categ_id"/>
+                            <field name="sale_team_ids" widget="many2many_tags"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Show in Odoo"
+                                name="generate_report_odoo"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Export as XLSX"
+                                name="generate_report_excel"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel"
+                                special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
