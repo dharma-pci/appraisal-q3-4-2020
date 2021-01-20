@@ -111,10 +111,11 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Qty</th>
+                                <th>Qty Return</th>
                                 <th>Price</th>
                                 <th>Sub total</th>
-                                <th>delete</th>
-                                <th>add</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody class='order-line-list-contents'>
@@ -122,14 +123,15 @@
                                 <tr class='order-line-details' t-att-data-product_id="line.product_id[0]" t-att-data-id='line.id' t-att-data-qty_def='line.qty'>
                                     <td><t t-esc='line.product_id[1]'/></td>
                                     <td t-att-class="'qty_'+line.id"><t t-esc='line.qty'/></td>
+                                    <td t-att-class="'qty_return_'+line.id"><t t-esc='line.qty_return'/></td>
                                     <td><t t-esc='widget.format_currency(line.price_unit)'/></td>
                                     <td><t t-esc='widget.format_currency(line.price_subtotal_incl)'/></td>
-                                    <td class="qty_minus min_button" t-if="line.qty > 1" t-att-data-id="line.id">
+                                    <td class="qty_minus min_button" t-if="line.qty != line.qty_return" t-att-data-id="line.id">
                                         <div class="button_icon">
                                             <i class="fa fa-minus"></i>
                                         </div>
                                     </td>
-                                    <td class="qty_plus plus_button" t-att-data-id="line.id">
+                                    <td class="qty_plus plus_button" t-if="line.qty != line.qty_return" t-att-data-id="line.id">
                                         <div class="button_icon">
                                             <i class="fa fa-plus"></i>
                                         </div>
