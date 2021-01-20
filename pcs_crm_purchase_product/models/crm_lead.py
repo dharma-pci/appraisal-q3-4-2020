@@ -117,7 +117,7 @@ class Lead(models.Model):
         active_id = self.id or self._context.get('active_id')
         ctx['active_id'] = active_id
         return {
-            'name': _("Add Product Lines"),
+            'name': _("Add Product Lines to Purchase"),
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
