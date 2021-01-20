@@ -110,6 +110,24 @@ class Lead(models.Model):
                                    ('company_id', '=', self.env.company.id)])
         return exist_rfq
 
+    def action_add_product_lines(self):
+        """ Input new product lines in pop up """
+        self.ensure_one()
+        ctx = self._context.copy()
+        active_id = self.id or self._context.get('active_id')
+        ctx['active_id'] = active_id
+        return {
+            'name': _("Add Product Lines"),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('pcs_crm_purchase_product.add_crm_product_lines_view_form').id,
+            'res_model': 'crm.lead',
+            'res_id': active_id,
+            'target': 'new',
+            'context': ctx
+        }
+
     def action_create_vendor_rfq(self):
         """ - Create new RFQs based on grouped vendor
                 - Only lines which not linked to any RFQ will take into account to generate new RFQs

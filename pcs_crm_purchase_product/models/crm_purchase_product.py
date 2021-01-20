@@ -75,6 +75,20 @@ class LeadProducts(models.Model):
             self.product_uom_id = False
             self.partner_ids = False
 
+    def get_custom_domain(self):
+        """ Do npt show the exist records in pop up form """
+        domain = []
+        ctx = self._context
+        if ctx.get('button_add_product_line', False):
+            domain = [('id', '=', False)]
+        return domain
+
+    @api.model
+    def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+        custom_domain = self.get_custom_domain()
+        args += custom_domain
+        return super(LeadProducts, self)._search(args, offset, limit, order, count, access_rights_uid)
+
     def _validate_seller_price(self, vals):
         """ Validate if selected product vendor have Price in purchase seller
             Check at least one seller of vendor must have price
