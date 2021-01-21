@@ -65,6 +65,8 @@ class LowPerformOptions(models.TransientModel):
 
         worksheet = workbook.add_worksheet("Low Performance Sales")
 
+        worksheet.set_column('B:B', 35)
+
         worksheet.write('B2', 'Product', bold_left)
         worksheet.write('C2', 'Qty Sold', bold_left)
         worksheet.write('D2', 'Revenue', bold_left)
