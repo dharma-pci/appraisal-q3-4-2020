@@ -27,13 +27,13 @@ class PurchaseOrder(models.Model):
                     raise UserError("Please set Purchase Leader for current user in Users Setting.")
 
                 value = {
-                    'activity_type_id' : self.env.ref('pcs_purchase_limit_approval.mail_activity_data_reminder').id,
-                    'summary' : "Approval of %s"%(order.name),
-                    'date_deadline' : order.date_order.date(),
-                    'user_id' : in_charge_id.id,
-                    'res_model' : order._name,
-                    'res_model_id' : self.env.ref('purchase.model_purchase_order').id,
-                    'res_id' : order.id
+                    'activity_type_id': self.env.ref('pcs_purchase_limit_approval.mail_activity_data_reminder').id,
+                    'summary': "Approval of %s"%(order.name),
+                    'date_deadline': order.date_order.date(),
+                    'user_id': in_charge_id.id,
+                    'res_model': order._name,
+                    'res_model_id': self.env.ref('purchase.model_purchase_order').id,
+                    'res_id': order.id
                 }
                 mail_obj.sudo().create(value)
                 order.write({'state': 'to approve'})
