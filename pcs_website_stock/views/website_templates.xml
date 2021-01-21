@@ -1,0 +1,31 @@
+<odoo>
+	<template id="products_website_stock" inherit_id="website_sale.products" active="False" customize_show="True" name="Stock Availability">
+		<xpath expr="//div[hasclass('products_pager')]/t[@t-call][last()]" position="after">
+			<t t-set="warehouse_ids" t-value="request.env['stock.warehouse'].sudo().search([])"/>
+			<div t-attf-class="dropdown mt-2 ml-md-2#{'' if warehouse_ids and len(warehouse_ids)&gt;1 else ' d-none'} #{_classes}">
+				<t t-set="wh" t-value="request.env['stock.warehouse'].sudo().browse(request.session.get('current_warehouse',False))"/>
+				<a role="button" href="#" class="dropdown-toggle btn btn-secondary" data-toggle="dropdown">
+					<t t-esc="wh and wh.name or ' Warehouse '"/>
+				</a>
+				<div class="dropdown-menu" role="menu">
+					<a role="menuitem" t-att-href="'/shop/warehouses/'" class="dropdown-item">
+						<span t-esc="' All '"/>
+					</a>
+					<t t-foreach="warehouse_ids" t-as="warehouse">
+						<a role="menuitem" t-att-href="'/shop/warehouse/%s' % warehouse.id" class="dropdown-item">
+							<span t-att-data-pl_id="warehouse.id" t-esc="warehouse.name"/>
+						</a>
+					</t>
+				</div>
+			</div>
+		</xpath>
+    </template>
+
+	<template id="products_item_website_stock" inherit_id="website_sale.products_item" active="False">
+        <xpath expr="//div[hasclass('oe_product_image')]" position="inside">
+            <span style="color: black; width: 50px; position: absolute; top: 0px; right: 0px; background: rgb(155 162 155 / 30%);">
+				<t t-esc="td_product.get('qoh')"/>
+			</span>
+        </xpath>
+    </template>
+</odoo>
