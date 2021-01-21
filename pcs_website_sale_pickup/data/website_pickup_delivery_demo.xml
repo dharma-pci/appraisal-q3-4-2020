@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="delivery.free_delivery_carrier" model="delivery.carrier">
+	        <field name="name">Pick up from Store</field>
+	        <field name="personal_pickup" eval="True"/>
+	        <field name="message_alert">Not Available this time</field>
+        </record>
+    </data>
+</odoo>
