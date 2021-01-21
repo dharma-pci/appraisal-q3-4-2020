@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- List View -->
+		<record model="ir.ui.view" id="sales_target_tree">
+			<field name="name">sales.target.tree</field>
+			<field name="model">sales.target</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="salesperson_id"/>
+					<field name="start_date"/>
+					<field name="end_date"/>
+					<field name="achieve_percentage" widget="progressbar"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Form View -->
+		<record model="ir.ui.view" id="sales_target_form">
+			<field name="name">sales.target.form</field>
+			<field name="model">sales.target</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="btn_open" string="Set Open" class="btn-primary" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+						<button name="btn_closed" string="Closed" class="btn-primary" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+						<button name="btn_cancel" string="Cancel" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,closed"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name" default_focus="1" placeholder="Name"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="salesperson_id" options="{'no_open': True, 'no_create': True}"/>
+								<field name="start_date"/>
+								<field name="end_date"/>
+							</group>
+							<group>
+								<field name="achieve"/>
+								<field name="achieve_percentage" widget="progressbar"/>
+							</group>
+						</group>
+						<notebook>
+							<page name="line" string="Target Line">
+								<field name="line_ids">
+									<tree editable="bottom">
+										<field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+										<field name="target" />
+										<field name="achieve_quantity" />
+										<field name="achieve_percentage" widget="progressbar"/>
+										<field name="order_line_ids" widget="many2many_tags"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="sales_target_action" model="ir.actions.act_window">
+			<field name="name">Sales Target</field>
+			<field name="res_model">sales.target</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to start preparing a new sales target.
+				</p>
+			</field>
+		</record>
+
+
+		<menuitem id="menu_sales_target" name="Sales Target" parent="sale.sale_order_menu" groups="sales_team.group_sale_salesman"
+		action="sales_target_action"/>
+	</data>
+</odoo>
