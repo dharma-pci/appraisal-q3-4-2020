@@ -6,13 +6,14 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
+                    <field invisible="1" name="state_x"/>
+                    <group attrs="{'invisible': [('state_x', '!=', 'choose')]}">
                         <group>
                             <field name="report_type" required="1"/>
-                            <field name="date_from"/>
-                            <field name="date_to"/>
-                            <field name="critical_level_qty"/>
-                            <field name="critical_level_currency"/>
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+                            <field name="critical_level_qty" required="1"/>
+                            <field name="critical_level_currency" required="1"/>
                         </group>
                         <group>
                             <h1>Filters</h1>
@@ -21,7 +22,13 @@
                             <field name="country_id"/>
                         </group>
                     </group>
-                    <footer>
+                    <group attrs="{'invisible':[('state_x','!=','get')]}">
+                        <separator colspan="4" string="Generate to Excel done. Download by click link below" attrs="{'invisible':[('state_x','=','choose')]}"/>
+                        <br/>
+                        <field name="name" invisible="1" width="100" attrs="{'invisible':[('state_x','=','choose')]}"/>
+                        <field name="data_x" nolabel="1" readonly="0" width="100" filename="name" attrs="{'invisible':[('state_x','=','choose')], 'readonly':[('state_x','=','get')]}"/>
+                    </group>
+                    <footer attrs="{'invisible':[('state_x','=','get')]}">
                         <button string="Show in Odoo"
                                 name="generate_report_odoo"
                                 type="object"
