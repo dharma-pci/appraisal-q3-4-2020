@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_product_pack" model="ir.actions.act_window">
+        <field name="name">Product Pack</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_product_pack', '=', True)]</field>
+    </record>
+    <menuitem action="action_product_pack" id="menu_product_pack" name="Product Pack" parent="sale.product_menu_catalog" sequence="3"/>
+    
+</odoo>

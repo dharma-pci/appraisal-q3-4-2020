@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="is_calculate_pack_price" string="Calculate Pack Price" attrs="{'invisible':[('is_product_pack', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//div[@name='options']" position="after">
+                <div>
+                    <field name="is_product_pack"/>
+                    <label for="is_product_pack" string="Is Product Pack"/>
+                </div>
+            </xpath>
+            <xpath expr="//page[4]" position="after">
+                <page string="Pack Products" attrs="{'invisible': [('is_product_pack', '=', False)]}">
+                    <div name="combo">
+                        <field name="product_pack_ids" nolabel="1" attrs="{'required': [('is_product_pack', '=', True)]}">
+                            <tree string="Pack Items" editable="1">
+                                <field name="product_id" required="1"/>
+                                <field name="quantity"/>
+                                <field name="image"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="before">
+                <p attrs="{'invisible':[('is_product_pack', '=', False)]}"><strong>You cannot create variants of the Pack</strong></p>
+            </xpath>
+            <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_product_pack', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
