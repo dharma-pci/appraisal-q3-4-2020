@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_timesheet_line_tree_inherit_hr_timesheet_invoice" model="ir.ui.view">
+        <field name="name">account.analytic.line.view.list.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="allow_invoice"/>
+                <field name="move_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='allow_invoice']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="attrs">{'readonly': [('move_id', '!=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
