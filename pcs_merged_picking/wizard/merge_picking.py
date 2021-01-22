@@ -45,18 +45,14 @@ class MergePicking(models.TransientModel):
         location_dest_id = picking_id.location_dest_id
         partner_id = picking_id.partner_id
         return {
-                'is_locked': True,
-                'state': 'assigned',
-                'immediate_transfer': True,
                 'picking_type_id': picking_type_id.id,
                 'location_id': location_id.id,
                 'location_dest_id': location_dest_id.id,
-                'scheduled_date': fields.Datetime.now(),
-                'move_type': 'direct',
-                'user_id': self.env.user.id,
-                'company_id': self.env.company.id,
-                'partner_id': partner_id.id,
-                'origin': str(set(self.picking_ids.mapped('name'))).replace('{','').replace('}','').replace("'",'')
+                'partner_id': partner_id.id if partner_id else False,
+                'origin': str(set(self.picking_ids.mapped('name'))).replace('{','').replace('}','').replace("'",''),
+                'move_line_ids_without_package': [],
+                'move_ids_without_package': [],
+                'package_level_ids_details': [],
             }
 
     def merge_picking(self):
@@ -77,6 +73,10 @@ class MergePicking(models.TransientModel):
         stock_move_lines_ids = picking_ids.mapped('move_lines')
         for lines in stock_move_lines_ids:
             lines.picking_id = picking_id
+
+        picking_id.do_unreserve()
+        picking_id.action_assign()
+
         
         # Cancel old picking
         for pick in picking_ids:

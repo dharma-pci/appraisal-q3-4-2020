@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_order_form_inherit_sale_stock" model="ir.ui.view">
+        <field name="name">sale.order.form.sale.stock</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_delivery']" position="after">
+                <field name="picking_move_ids" invisible="1"/>
+                <button type="object"
+                    name="action_view_delivery_order"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    attrs="{'invisible': [('picking_move_count', '=', 0)]}" groups="base.group_user">
+                    <field name="picking_move_count" widget="statinfo" string="Delivery"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

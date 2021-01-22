@@ -12,8 +12,10 @@
     'website': 'https://www.portcities.net',
     'author':'Portcities Ltd.',
     'images': [],
-    'depends': ['stock'],
+    'depends': ['stock','sale_stock','sale_management','purchase_stock'],
     'data': [
+        'views/sale_order_view.xml',
+        # 'views/purchase_order_view.xml',
         'wizard/merge_picking_view.xml',
     ],
     'installable': True,

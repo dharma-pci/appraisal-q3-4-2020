@@ -1,0 +1,29 @@
+<!-- <odoo>
+    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase_stock.purchase_order_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_picking'][1]" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            
+            <xpath expr="//button[@name='action_view_picking'][1]" position="after">
+                <button name="action_view_picking_order" string="Receive Products" class="oe_highlight" type="object" attrs="{'invisible': ['|', '|' , ('is_shipped', '=', True), ('state','not in', ('purchase','done')), ('picking_count', '=', 0)]}"/>
+            </xpath>
+            
+            <xpath expr="//div[hasclass('oe_button_box')]/button[@name='action_view_picking']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]/button[@name='action_view_picking']" position="after">
+                <button type="object"
+                    name="action_view_picking_order"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    attrs="{'invisible': [('picking_move_count', '=', 0)]}" groups="base.group_user">
+                    <field name="picking_move_count" widget="statinfo" string="Receipt" help="Incoming Shipments"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo> -->
