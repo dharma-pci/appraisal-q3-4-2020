@@ -14,7 +14,7 @@
     'images': [],
     'depends': ['point_of_sale'],
     'data': [
-        # 'views/sale_views.xml',
+        'views/pos_order_views.xml',
         'views/js_template.xml',
     ],
     'qweb': [  
