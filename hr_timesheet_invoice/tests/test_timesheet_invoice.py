@@ -107,10 +107,6 @@ class TestTimesheetInvoice(common.TransactionCase):
         wiz = self.env['invoice.activities.wizard'].create({})
         wiz.groupby_project = True
         res = wiz.with_context(open_invoices=True).create_invoices()
-        # invoices = self.env['account.move'].browse(res.get('res_ids'))
-        # total = 0
-        # for inv in invoices:
-        #     total += inv.amount_total
         self.assertEqual(len(res.get('res_ids')), 2, 'invoice is not groupped correctly')
     
     def test_generate_invoice_option_groupby_partner(self):
