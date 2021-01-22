@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="payment_pickup_delivery" name="Pickup payment delivery" inherit_id="website_sale_delivery.payment_delivery">
+        <xpath expr="//div[@id='delivery_carrier']" position="replace">
+        </xpath>
+        <xpath expr="//div[@t-if='deliveries']" position="replace">
+        </xpath>
+        <xpath expr="//div[@id='payment_method']" position="after">
+            <div t-if="deliveries" id="delivery_carrier" style="padding-top:15px">
+                <t t-set="delivery_nb" t-value="len(deliveries)"/>
+                <h3 class="mb24">Choose a delivery method</h3>
+                <div class="card border-0" id="delivery_method">
+                    <ul class="list-group">
+                    <t t-foreach="deliveries" t-as="delivery">
+                        <li class="list-group-item o_delivery_carrier_select">
+                            <t t-call="website_sale_delivery.payment_delivery_methods"/>
+                        </li>
+                    </t>
+                    </ul>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="inherit_payment_delivery_methods" name="inherit payment delivery methods" inherit_id="website_sale_delivery.payment_delivery_methods">
+        <xpath expr="//input[1]" position="replace">
+            <input t-att-value="delivery.id" t-att-id="'delivery_%i' % delivery.id" type="radio" name="delivery_type" t-att-checked="order.carrier_id and order.carrier_id.id == delivery.id and 'checked' or False"/>
+        </xpath>
+    </template>
+</odoo>
