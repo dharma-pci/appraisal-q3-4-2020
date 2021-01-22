@@ -82,3 +82,11 @@ class MergePicking(models.TransientModel):
         for pick in picking_ids:
             pick.action_cancel()
             pick.state = 'cancel'
+        
+        return {
+            'name': _('Inventory'),
+            'res_model': 'stock.picking',
+            'view_mode': 'form',
+            'type': 'ir.actions.act_window',
+            'res_id': picking_id.id,
+        }
