@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_warehouse" model="ir.ui.view">
+        <field name="name">stock.warehouse</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="after">
+                <group>
+                    <group string="Automation Picking">
+                        <field name="automated_picking_creation"/>
+                        <field name="automated_picking_validation" attrs="{'invisible': [('automated_picking_creation', '!=', True)]}"/>
+                    </group>
+                    <group string="Automation Invoice">
+                        <field name="automated_invoice_creation"/>
+                        <field name="create_invoice_triger" attrs="{'invisible': [('automated_invoice_creation', '!=', True)]}" required="1"/>
+                        <field name="automated_invoice_validation" attrs="{'invisible': [('automated_invoice_creation', '!=', True)]}"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
