@@ -1,0 +1,103 @@
+<odoo>
+	<record id="material_request_form_view" model="ir.ui.view">
+		<field name="name">material.request.form.view</field>
+		<field name="model">material.request</field>
+		<field name="arch" type="xml">
+			<form string="Material Request">
+				<header>
+					<button name="action_confirm" states="draft" string="Confirm" type="object" class="oe_highlight"/>
+					<button name="action_approve" states="confirm" string="Approve" type="object"  class="oe_highlight" groups="purchase.group_purchase_manager"/>
+					<button name="action_cancel" string="Cancel" type="object" states="draft"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1><field name="name" class="oe_inline"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="date" readonly="1"/>
+						</group>
+					</group>
+					<group string="Request Line" name="request_line">
+						<field name="request_line_ids" nolabel="1" mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+							<tree editable="bottom">
+								<field name="product_id" readonly="1"/>
+								<field name="planned_product_uom_qty" readonly="1"/>
+								<field name="actual_product_uom_qty" attrs="{'readonly': [('parent.state', '!=', 'draft')]}"/>
+								<field name="product_uom_id" groups="uom.group_uom"/>
+							</tree>
+							<form>
+								<group>
+									<group>
+										<field name="product_id"/>
+										<field name="planned_product_uom_qty" readonly="1"/>
+										<field name="actual_product_uom_qty" readonly="1"/>
+										<field name="product_uom_id" groups="uom.group_uom"/>
+									</group>
+								</group>
+							</form>
+						</field>
+					</group>
+				</sheet>
+				<div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+			</form>
+		</field>
+	</record>
+
+	<record id="material_request_tree_view" model="ir.ui.view">
+		<field name="name">material.request.tree.view</field>
+		<field name="model">material.request</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="date"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="material_request_search_view" model="ir.ui.view">
+        <field name="name">material.request.search.view</field>
+		<field name="model">material.request</field>
+        <field eval="16" name="priority"/>
+        <field name="arch" type="xml">
+            <search>
+				<field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirm" name="confirms" domain="[('state', '=', 'confirm')]"/>
+                <filter string="Approve" name="done" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="material_request_action" model="ir.actions.act_window">
+		<field name="name">Material Request</field>
+		<field name="res_model">material.request</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="material_request_search_view"/>
+		<field name="context">{}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create a new Material Request
+			</p><p>
+				You must define a Material Request
+			</p>
+		</field>
+	</record>
+
+    <menuitem
+		id="material_request_menu"
+		sequence="1"
+		action="pci_material_request.material_request_action"
+	/>
+</odoo>
+
