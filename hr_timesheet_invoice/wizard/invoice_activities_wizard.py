@@ -114,5 +114,6 @@ class InvoiceActivitiesWizard(models.TransientModel):
                 ('type', '=', 'out_invoice'), 
                 ('id', 'in', invoices.ids)
             ]
+            action['res_ids'] = invoices.ids
             return action
         return {'type': 'ir.actions.act_window_close'}
