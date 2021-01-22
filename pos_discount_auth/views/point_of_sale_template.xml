@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="pos_discount_auth_assets" name="pos_discount_auth assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pos_discount_auth/static/src/js/screens.js"/>
+            <script type="text/javascript" src="/pos_discount_auth/static/src/js/models.js"/>
+        </xpath>
+
+    </template>
+
+</odoo>
