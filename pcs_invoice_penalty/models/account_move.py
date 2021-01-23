@@ -75,7 +75,7 @@ class AccountMove(models.Model):
             'tax_ids': False,
         }
 
-    def get_penalty_invoice(self):
+    def cron_create_penalty_invoice(self):
         context = self.env.context
         company_obj = self.env['res.company']
         invoice_obj = self.env['account.move']
