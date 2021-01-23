@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_workorder_form_view_inherit" model="ir.ui.view">
+        <field name="name">inherit.mrp.production.workorder.form.view.inherit</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group/div" position="after">
+                <label for="overhead_duration"/>
+                <div>
+                    <field name="overhead_duration" required="1"/> hours
+                </div>
+            </xpath>
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Accounting" name='page_accounting'>
+                    <group>
+                        <group>
+                            <field name="journal_entries" readonly='1'/>
+                        </group>
+                    </group>
+                </page>
+                
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_workorder_view_form_tablet" model="ir.ui.view">
+        <field name="name">inherit.mrp.workorder.view.form.tablet</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp_workorder.mrp_workorder_view_form_tablet"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/div/div/div/span" position="attributes">
+                <attribute name="attrs">{'invisible': 1}</attribute>
+            </xpath>
+            <xpath expr="//form/div[1]" position="after">
+                <div class="workorder_bar">
+                    <div class="o_workorder_field text-left">
+                        <label for="overhead_duration" string="Overhead Duration" style="font-size:18px; padding-left:55px; padding-right:30px;"/>
+                    </div>
+                    <div class="workorder_bar_left o_workorder_bar_content">
+                        <field name="overhead_duration" class="col-4"/>hours 
+                    </div>
+                    <div class="workorder_bar_center o_workorder_bar_content"></div>
+                    <div class="workorder_bar_right o_workorder_bar_content o_workorder_bar_content_right"></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

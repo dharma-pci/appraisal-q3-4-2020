@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="mrp_cost_structure" inherit_id="mrp_account_enterprise.mrp_cost_structure">
+        <xpath expr="//t/div/t[3]/t[5]/table/tbody/tr[1]/td[3]" position="replace">
+            <td class="text-right">
+                <span> <t t-esc="row[5]" t-options='{"widget": "float", "precision": 4}'/> hours</span>
+            </td>
+        </xpath>
+        <xpath expr="//t/div/t[3]/t[5]/table/tbody/tr[1]/td[5]" position="replace">
+            <td class="text-right">
+                <span t-esc="row[5] * row[4]" t-options='{"widget": "monetary", "display_currency": currency}'/>
+            </td>
+        </xpath>
+        <xpath expr="//t/div/t[3]/t[5]/table/tbody/tr[1]/t" position="replace">
+            <t t-set="opcost" t-value="opcost + row[5] * row[4]"/>
+        </xpath>
+    </template>
+</odoo>
