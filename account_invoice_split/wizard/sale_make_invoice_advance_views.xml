@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_sale_advance_payment_inv" model="ir.ui.view">
+        <field name="name">Invoice Orders Split</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_order_line_ids']" position="after">
+                    <field name="planned_order_item_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//div" position="replace">
+                <!-- replace all div to change class from col-md-4 to col-md-3 to fit the screen -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button type="object"
+                                name="action_open_rfq_details"
+                                class="btn btn-block btn-primary">
+                                <field name="rfq_qty" widget="statinfo" string="Requests for quotation"/>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="object"
+                                name="action_open_incoming_moves_details"
+                                class="btn btn-block btn-primary">
+                                <field name="moves_qty" widget="statinfo" string="Receipts"/>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="object"
+                                name="action_open_mo_details"
+                                class="btn btn-block btn-primary">
+                                <field name="manufacture_qty" widget="statinfo" string="Manufacturing Orders"/>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="object"
+                                name="action_open_poi_details"
+                                class="btn btn-block btn-primary">
+                                <field name="planned_order_item_qty" widget="statinfo" string="Planned Order Item"/>
+                            </button>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+    </record>
+</odoo>
