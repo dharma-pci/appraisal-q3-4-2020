@@ -27,37 +27,42 @@ class SplitInvoice(models.TransientModel):
         res['split_line_ids'] = split_line
         return res
 
+    def remove_line(self, invoice_id, invoice_split_id):
+        for line in invoice_id.invoice_line_ids:
+            line.with_context(check_move_validity=False).unlink()
+
+        for line in invoice_split_id.invoice_line_ids:
+            line.with_context(check_move_validity=False).unlink()
+
+    def prepare_line_data(self, product_id, name, qty, price_unit):
+        return {'product_id': product_id.id,
+                'name': name,
+                'quantity': qty,
+                'price_unit': price_unit
+                }
+
     def split_invoice(self):
+        invoice_line = []
+        new_invoice_line = []
         invoice_id = self.env['account.move'].browse(self._context.get('active_id'))
+        new_invoice = invoice_id.with_context(check_move_validity=False).copy()
+        self.remove_line(invoice_id, new_invoice)
         if self.split_selection == 'full':
-            invoice_line = []
-            new_invoice_line = []
-            new_invoice = invoice_id.with_context(check_move_validity=False).copy()
-
-            for line in invoice_id.invoice_line_ids:
-                line.with_context(check_move_validity=False).unlink()
-
-            for line in new_invoice.invoice_line_ids:
-                line.with_context(check_move_validity=False).unlink()
-
             for data in self.split_line_ids:
                 qty = data.quantity * (self.percentage/100)
                 new_qty = data.quantity - (data.quantity * (self.percentage/100))
-                invoice_line.append(((0,0, {
-                    'product_id': data.product_id.id,
-                    'name': data.description,
-                    'quantity': qty,
-                    'price_unit': data.price_unit
-                    })))
-                new_invoice_line.append(((0,0, {
-                    'product_id': data.product_id.id,
-                    'name': data.description,
-                    'quantity': new_qty,
-                    'price_unit': data.price_unit
-                    })))
-            invoice_id.with_context(check_move_validity=False).write({'invoice_line_ids': invoice_line})
-            new_invoice.with_context(check_move_validity=False).write({'invoice_line_ids': new_invoice_line})
-        # elif self.split_selection == 'invoice_line':
+                invoice_line.append(((0,0, self.prepare_line_data(data.product_id, data.description, qty, data.price_unit))))
+                new_invoice_line.append(((0,0, self.prepare_line_data(data.product_id, data.description, new_qty, data.price_unit))))
+            
+        elif self.split_selection == 'invoice_line':
+            if self.split_by == 'qty':
+                for data in self.split_line_ids:
+                    qty = data.split_qty
+                    new_qty = data.quantity - qty
+                    invoice_line.append(((0,0, self.prepare_line_data(data.product_id, data.description, qty, data.price_unit))))
+                    new_invoice_line.append(((0,0, self.prepare_line_data(data.product_id, data.description, new_qty, data.price_unit))))
+        invoice_id.with_context(check_move_validity=False).write({'invoice_line_ids': invoice_line})
+        new_invoice.with_context(check_move_validity=False).write({'invoice_line_ids': new_invoice_line})
 
 
 class SplitInvoiceLine(models.TransientModel):
