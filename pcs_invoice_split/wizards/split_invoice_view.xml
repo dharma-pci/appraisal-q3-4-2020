@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form view of Split Invoice -->
+    <record id="view_split_invoice" model="ir.ui.view">
+        <field name="name">split.invoice.form</field>
+        <field name="model">split.invoice</field>
+        <field name="arch" type="xml">
+             <form string="Split Invoice">
+                <separator string="Are you sure you want to split Invoice of selected orders?"/>
+                <group>
+                    <group>
+                        <field name="split_selection"/>
+                        <field name="partner_id"/>
+                        <field name="percentage"/>
+                        <field name="split_by"/>
+                    </group>
+                </group>
+                <field name="split_line_ids">
+                    <tree create='false' editable='bottom'>
+                        <field name="product_id"/>
+                        <field name="description"/>
+                        <field name="quantity"/>
+                        <field name="split_qty"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="split_invoice" string="Yes" type="object"
+                    class="btn-primary"/>
+                    <button string="No" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action of Split Invoice-->
+    <record id="action_view_split_invoice" model="ir.actions.act_window">
+        <field name="name">Split Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">split.invoice</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_wiz_view_split_invoice" model="ir.actions.act_window">
+        <field name="name">Split Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">split.invoice</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="view_id" ref="view_split_invoice"/>
+    </record>
+
+</odoo>
