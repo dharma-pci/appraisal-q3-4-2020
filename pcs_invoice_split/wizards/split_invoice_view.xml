@@ -10,12 +10,12 @@
                 <group>
                     <group>
                         <field name="split_selection"/>
-                        <field name="partner_id"/>
-                        <field name="percentage"/>
-                        <field name="split_by"/>
+                        <field name="partner_id" required="1"/>
+                        <field name="percentage" attrs="{'invisible':[('split_selection','!=','full')], 'required':[('split_selection','=','full')]}"/>
+                        <field name="split_by" attrs="{'invisible':[('split_selection','=','full')]}"/>
                     </group>
                 </group>
-                <field name="split_line_ids">
+                <field name="split_line_ids" attrs="{'invisible':[('split_selection','=','full')]}">
                     <tree create='false' editable='bottom'>
                         <field name="product_id"/>
                         <field name="description"/>
@@ -24,8 +24,7 @@
                     </tree>
                 </field>
                 <footer>
-                    <button name="split_invoice" string="Yes" type="object"
-                    class="btn-primary"/>
+                    <button name="split_invoice" string="Yes" type="object" class="btn-primary"/>
                     <button string="No" class="btn-default" special="cancel"/>
                 </footer>
             </form>
