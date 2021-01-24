@@ -29,7 +29,7 @@
     'description': """
 """,
     'version': '13.0.1.0',
-    'depends': ['base','account'],
+    'depends': ['base','account','sales_team','purchase'],
     'data': [
             'wizards/split_invoice_view.xml'],
     'installable': True,

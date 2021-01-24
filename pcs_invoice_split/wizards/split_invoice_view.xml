@@ -46,7 +46,9 @@
         <field name="res_model">split.invoice</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="groups_id" eval="[(6, 0, [ref('sales_team.group_sale_manager'),ref('purchase.group_purchase_manager')])]"/>
         <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">form</field>
         <field name="view_id" ref="view_split_invoice"/>
     </record>
 
