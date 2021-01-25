@@ -1,9 +1,7 @@
-install: 
-  - "git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools"
-  - "export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}"
-  - travis_install_nightly
 language: python
 python: 
   - "3.7"
 script: 
-  - travis_run_tests
+  - pytest
+install: 
+  - pip install -r requirements.txt
