@@ -1,0 +1,76 @@
+<odoo>
+    <record id="mail_template_sale_order_limit_approval_req" model="mail.template">
+            <field name="name">Sales Order: Request Credit Limit Approval</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Waiting Approval - ${object.name}</field>
+            <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.sales_manager_partner_to()}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Hi,
+        <br/><br/>
+        
+        The Sales Order <strong>${object.name}</strong> needs your approval because <i><strong>Customer is already having confirmed orders for which full invoice is not yet generated</strong></i>
+        
+        <br/>
+        <ul>
+            <li>
+                Customer: ${object.partner_id.display_name}
+            </li>
+            <li>
+                Credit Limit: ${object.credit_limit}
+            </li>
+            <li>
+                Unpaid Amount: ${object.unpaid_amount}
+            </li>
+            <li>
+                Order Amount: ${object.amount_total}
+            </li>
+            <li>
+                Exceeded Credit: ${object.exceeded_limit}
+            </li>
+        </ul>
+
+        <br/>
+        <a href="${object.form_view_link}">View Quotation</a>
+        <br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/>
+    </p>
+</div>
+            </field>
+            <field name="report_template" ref="sale.action_report_saleorder"/>
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+    <record id="mail_template_sale_order_limit_approval_approved" model="mail.template">
+            <field name="name">Sales Order: Request Credit Limit Approved</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">APPROVAL - ${object.name}</field>
+            <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.sales_manager_partner_to()}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Hi,
+        <br/><br/>
+        
+        The Credit for Sales Order <strong>${object.name}</strong> Has been approved!
+        
+        <br/>
+        <br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/>
+    </p>
+</div>
+            </field>
+            <field name="report_template" ref="sale.action_report_saleorder"/>
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+</odoo>
